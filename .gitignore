@@ -1,10 +1,11 @@
+*_bak
 *.iml
 .gradle
 .google
 .idea
 /local.properties
 .DS_Store
-/build
+build
 /captures
 .externalNativeBuild
 .cxx
