@@ -21,7 +21,7 @@ This sample showcases:
 * Material Design 3 theming and Material You dynamic color
 * UI tests
 
-<img src="screenshots/mychat.gif"/>
+[comment]: <> (<img src="screenshots/mychat.gif"/>)
 
 ### Status: 🚧 In progress
 
