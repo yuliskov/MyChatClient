@@ -1,6 +1,6 @@
 <img src="screenshots/mychatlogo.png"/>
 
-# MyChat sample
+# MyChat
 
 MyChat is a sample chat app built with [Jetpack Compose][compose].
 
