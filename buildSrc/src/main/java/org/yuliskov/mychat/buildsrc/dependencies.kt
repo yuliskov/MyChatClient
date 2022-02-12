@@ -141,6 +141,23 @@ object Libs {
     object JakeWharton {
         const val timber = "com.jakewharton.timber:timber:5.0.1"
     }
+
+    object Krossbow {
+        const val stomp = "org.hildan.krossbow:krossbow-stomp-core:3.1.1"
+        const val sockjs = "org.hildan.krossbow:krossbow-websocket-sockjs:3.1.1"
+    }
+
+    object JavaX {
+        const val websocketApi = "javax.websocket:javax.websocket-api:1.1"
+        const val websocketApiImplementation = "org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
+    }
+
+    object Jackson {
+        private const val version = "2.13.1"
+        const val core = "com.fasterxml.jackson.core:jackson-core:$version"
+        const val databind = "com.fasterxml.jackson.core:jackson-databind:$version"
+        const val jacksonAnnotations = "com.fasterxml.jackson.core:jackson-annotations:$version"
+    }
 }
 
 object Urls {

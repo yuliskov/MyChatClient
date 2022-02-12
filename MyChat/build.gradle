@@ -134,6 +134,16 @@ dependencies {
     implementation Libs.Joda.time
     implementation Libs.JakeWharton.timber
 
+    implementation Libs.Krossbow.stomp
+    implementation Libs.Krossbow.sockjs
+
+    implementation Libs.JavaX.websocketApi
+    implementation Libs.JavaX.websocketApiImplementation
+
+    implementation Libs.Jackson.core
+    implementation Libs.Jackson.databind
+    implementation Libs.Jackson.jacksonAnnotations
+
     debugImplementation Libs.AndroidX.Compose.uiTestManifest
 
     androidTestImplementation Libs.junit
