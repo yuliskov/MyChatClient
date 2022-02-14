@@ -16,18 +16,24 @@
 
 package org.yuliskov.mychat.data.mychat.api
 
-import com.tinder.scarlet.WebSocket
-import com.tinder.scarlet.ws.Receive
-import com.tinder.scarlet.ws.Send
-import io.reactivex.Flowable
-import org.yuliskov.mychat.data.gdax.api.model.Subscribe
-import org.yuliskov.mychat.data.gdax.api.model.Ticker
+import org.yuliskov.mychat.data.mychat.api.model.ChatMessage
+import retrofit2.Call
+import retrofit2.http.GET
+import retrofit2.http.Header
+import retrofit2.http.Path
 
 interface MyChatService {
-    @Receive
-    fun observeWebSocketEvent(): Flowable<WebSocket.Event>
-    @Send
-    fun sendSubscribe(subscribe: Subscribe)
-    @Receive
-    fun observeTicker(): Flowable<Ticker>
+    @GET("/messages/{senderId}/{recipientId}/count")
+    fun countNewMessages(@Header("Authorization") auth: String,
+                         @Path("senderId") senderId: String,
+                         @Path("recipientId") recipientId: String): Call<Int>
+
+    @GET("/messages/{senderId}/{recipientId}")
+    fun findChatMessages(@Header("Authorization") auth: String,
+                         @Path("senderId") senderId: String,
+                         @Path("recipientId") recipientId: String): Call<List<ChatMessage>>
+
+    @GET("/messages/{id}")
+    fun findChatMessage(@Header("Authorization") auth: String,
+                         @Path("id") id: String): Call<ChatMessage>
 }

@@ -14,17 +14,20 @@
  * limitations under the License.
  */
 
-package org.yuliskov.mychat.data.mychat.api.model
+package org.yuliskov.mychat.data.mychat.api
 
-import kotlinx.serialization.Serializable
+import com.tinder.scarlet.WebSocket
+import com.tinder.scarlet.ws.Receive
+import com.tinder.scarlet.ws.Send
+import io.reactivex.Flowable
+import org.yuliskov.mychat.data.gdax.api.model.Subscribe
+import org.yuliskov.mychat.data.gdax.api.model.Ticker
 
-@Serializable
-data class MyMessage(
-    val id: String? = null,
-    val senderId: String? = null,
-    val recipientId: String? = null,
-    val senderName: String? = null,
-    val recipientName: String? = null,
-    val content: String? = null,
-    val timestamp: String? = null
-)
+interface MyChatService2 {
+    @Receive
+    fun observeWebSocketEvent(): Flowable<WebSocket.Event>
+    @Send
+    fun sendSubscribe(subscribe: Subscribe)
+    @Receive
+    fun observeTicker(): Flowable<Ticker>
+}

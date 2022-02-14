@@ -24,7 +24,6 @@ import org.hildan.krossbow.stomp.conversions.kxserialization.convertAndSend
 import org.hildan.krossbow.stomp.conversions.kxserialization.subscribe
 import org.hildan.krossbow.stomp.conversions.kxserialization.withJsonConversions
 import org.hildan.krossbow.stomp.sendText
-import org.hildan.krossbow.stomp.subscribe
 import org.hildan.krossbow.stomp.subscribeText
 import org.hildan.krossbow.websocket.sockjs.SockJSClient
 import org.junit.Assert
@@ -33,22 +32,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import org.yuliskov.mychat.data.mychat.api.model.MyMessage
+import org.yuliskov.mychat.data.mychat.api.model.ChatMessage
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest=Config.NONE)
-class MyChatServiceTest {
-    companion object {
-        const val AUTH_SERVICE = "http://localhost:8081"
-        const val CHAT_SERVICE = "http://localhost:8080"
-        const val CHAT_WS_SERVICE = "http://localhost:8080/ws"
-        const val SENDER_ID = "62099f63a6adac17b0bcd061"
-        const val RECIPIENT_ID = "6209a01da6adac17b0bcd062"
-        const val SENDER_NAME = "test"
-        const val RECIPIENT_NAME = "test3"
-        const val SIMPLE_MESSAGE = "simple message for user with id = $RECIPIENT_ID"
-    }
-
+class MyChatService2Test: TestBase() {
     @Before
     fun setUp() {
         //TODO("Not yet implemented")
@@ -98,12 +86,12 @@ class MyChatServiceTest {
 
         // Send chat message
         jsonStompSession.convertAndSend("/app/chat",
-            MyMessage(null, SENDER_ID, RECIPIENT_ID, SENDER_NAME, RECIPIENT_NAME, SIMPLE_MESSAGE, "${System.currentTimeMillis()}"),
-            MyMessage.serializer()
+            ChatMessage(null, SENDER_ID, RECIPIENT_ID, SENDER_NAME, RECIPIENT_NAME, SIMPLE_MESSAGE, "${System.currentTimeMillis()}"),
+            ChatMessage.serializer()
         )
 
         // Receive chat message
-        val subscription: Flow<MyMessage> = jsonStompSession.subscribe("/user/$SENDER_ID/queue/messages", MyMessage.serializer())
+        val subscription: Flow<ChatMessage> = jsonStompSession.subscribe("/user/$SENDER_ID/queue/messages", ChatMessage.serializer())
 
         // {"id":"6209a22f74c12301028e086b","senderId":"6209a01da6adac17b0bcd062","senderName":"test3"}
         val collectorJob = launch {
