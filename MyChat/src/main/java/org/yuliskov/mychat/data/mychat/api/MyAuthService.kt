@@ -38,5 +38,5 @@ interface MyAuthService {
 
     @Headers("Content-Type: application/json")
     @GET("/users/summaries")
-    fun getUsers(@Header("Authorization") auth: String): Call<List<ChatUser>>
+    fun getContacts(@Header("Authorization") auth: String): Call<List<ChatUser>>
 }

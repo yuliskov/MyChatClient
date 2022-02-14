@@ -19,4 +19,4 @@ package org.yuliskov.mychat.data.mychat.api.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ChatUser(val id: String, val name: String, val username: String, val email: String, val password: String, val profilePicture: String, val newMessages: Int? = null)
+data class ChatUser(val id: String, val name: String, val username: String, val email: String? = null, val password: String? = null, val profilePicture: String, val newMessages: Int = 0)

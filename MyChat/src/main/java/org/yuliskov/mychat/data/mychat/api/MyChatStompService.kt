@@ -23,7 +23,7 @@ import io.reactivex.Flowable
 import org.yuliskov.mychat.data.gdax.api.model.Subscribe
 import org.yuliskov.mychat.data.gdax.api.model.Ticker
 
-interface MyChatService2 {
+interface MyChatStompService {
     @Receive
     fun observeWebSocketEvent(): Flowable<WebSocket.Event>
     @Send

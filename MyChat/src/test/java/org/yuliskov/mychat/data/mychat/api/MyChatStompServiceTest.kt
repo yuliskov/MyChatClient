@@ -36,7 +36,7 @@ import org.yuliskov.mychat.data.mychat.api.model.ChatMessage
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest=Config.NONE)
-class MyChatService2Test: TestBase() {
+class MyChatStompServiceTest: TestBase() {
     @Before
     fun setUp() {
         //TODO("Not yet implemented")

@@ -24,6 +24,7 @@ open class TestBase {
         const val AUTH_SERVICE = "http://localhost:8081"
         const val CHAT_SERVICE = "http://localhost:8080"
         const val CHAT_WS_SERVICE = "http://localhost:8080/ws"
+        const val MESSAGE_ID = "62099f63a6adac17b0bcd061"
         const val SENDER_ID = "62099f63a6adac17b0bcd061"
         const val RECIPIENT_ID = "6209a01da6adac17b0bcd062"
         const val SENDER_NAME = "test"
@@ -31,9 +32,13 @@ open class TestBase {
         const val SENDER_PASSWORD = "testTest1314"
         const val SENDER_PIC_URL = "http://localhost:8081"
         const val RECIPIENT_NAME = "test3"
+        const val RECIPIENT_EMAIL = "myemail2@gmail.com"
+        const val RECIPIENT_PASSWORD = "testTest1314"
+        const val RECIPIENT_PIC_URL = "http://localhost:8081"
         const val SIMPLE_MESSAGE = "simple message for user with id = $RECIPIENT_ID"
 
         val SIGNUP_REQUEST = SignupRequest(SENDER_NAME, SENDER_NAME, SENDER_EMAIL, SENDER_PASSWORD, SENDER_PIC_URL)
+        val SIGNUP_REQUEST2 = SignupRequest(RECIPIENT_NAME, RECIPIENT_NAME, RECIPIENT_EMAIL, RECIPIENT_PASSWORD, RECIPIENT_PIC_URL)
         val LOGIN_REQUEST = LoginRequest(SENDER_NAME, SENDER_PASSWORD)
     }
 }
