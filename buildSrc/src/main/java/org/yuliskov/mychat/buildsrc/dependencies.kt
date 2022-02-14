@@ -39,6 +39,8 @@ object Libs {
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
+        const val serializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$version"
+        const val serializationJson = "org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2"
     }
 
     object Coroutines {
@@ -132,6 +134,7 @@ object Libs {
         const val okHttpLogging = "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
         const val dagger = "com.google.dagger:dagger:$daggerVersion"
         const val daggerCompiler = "com.google.dagger:dagger-compiler:$daggerVersion"
+        const val retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
     }
 
     object Joda {
@@ -140,11 +143,14 @@ object Libs {
 
     object JakeWharton {
         const val timber = "com.jakewharton.timber:timber:5.0.1"
+        const val retrofitKotlinSerializer = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
     }
 
     object Krossbow {
-        const val stomp = "org.hildan.krossbow:krossbow-stomp-core:3.1.1"
-        const val sockjs = "org.hildan.krossbow:krossbow-websocket-sockjs:3.1.1"
+        private const val version = "3.1.1"
+        const val stomp = "org.hildan.krossbow:krossbow-stomp-core:$version"
+        const val sockjs = "org.hildan.krossbow:krossbow-websocket-sockjs:$version"
+        const val kxserialization = "org.hildan.krossbow:krossbow-stomp-kxserialization:$version"
     }
 
     object JavaX {

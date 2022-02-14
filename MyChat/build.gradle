@@ -19,6 +19,7 @@ import org.yuliskov.mychat.buildsrc.Libs
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -91,6 +92,7 @@ android {
 dependencies {
     implementation Libs.Kotlin.stdlib
     implementation Libs.Coroutines.android
+    implementation Libs.Kotlin.serializationJson
 
 
     implementation Libs.AndroidX.Activity.activityCompose
@@ -130,12 +132,16 @@ dependencies {
     implementation Libs.Square.okHttpLogging
     implementation Libs.Square.dagger
     annotationProcessor Libs.Square.daggerCompiler
+    implementation Libs.Square.retrofit
+
+    implementation Libs.JakeWharton.timber
+    implementation Libs.JakeWharton.retrofitKotlinSerializer
 
     implementation Libs.Joda.time
-    implementation Libs.JakeWharton.timber
 
     implementation Libs.Krossbow.stomp
     implementation Libs.Krossbow.sockjs
+    implementation Libs.Krossbow.kxserialization
 
     implementation Libs.JavaX.websocketApi
     implementation Libs.JavaX.websocketApiImplementation
