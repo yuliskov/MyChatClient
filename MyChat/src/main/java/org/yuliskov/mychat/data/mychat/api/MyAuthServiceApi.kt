@@ -23,7 +23,7 @@ import org.yuliskov.mychat.data.mychat.api.model.ChatUser
 import retrofit2.Call
 import retrofit2.http.*
 
-interface MyAuthService {
+interface MyAuthServiceApi {
     @Headers("Content-Type: application/json")
     @POST("/signin")
     fun login(@Body request: LoginRequest): Call<LoginResponse>

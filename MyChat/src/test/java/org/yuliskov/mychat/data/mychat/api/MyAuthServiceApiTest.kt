@@ -30,53 +30,53 @@ import retrofit2.Retrofit
 
 @RunWith(RobolectricTestRunner::class)
 @Config(manifest= Config.NONE)
-class MyChatServiceTest: TestBase() {
-    private lateinit var service: MyChatService
-    private lateinit var authService: MyAuthService
+class MyAuthServiceApiTest: TestBase() {
+    private lateinit var mServiceApi: MyAuthServiceApi
 
     @ExperimentalSerializationApi
     @Before
     fun setUp() {
         val contentType = "application/json".toMediaType()
-
         val retrofit = Retrofit.Builder()
-            .baseUrl(CHAT_SERVICE)
-            .addConverterFactory(Json.asConverterFactory(contentType))
-            .build()
-
-        service = retrofit.create(MyChatService::class.java)
-
-        val retrofit2 = Retrofit.Builder()
             .baseUrl(AUTH_SERVICE)
             .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
 
-        authService = retrofit2.create(MyAuthService::class.java)
+        mServiceApi = retrofit.create(MyAuthServiceApi::class.java)
     }
 
     @Test
-    fun testCountNewMessages() {
-        val count = service.countNewMessages(getAuthHeader(), SENDER_ID, RECIPIENT_ID)
-        val result = count.execute()
+    fun testLogin() {
+        val login = mServiceApi.login(LOGIN_REQUEST)
+        val result = login.execute()
+        Assert.assertNotNull("Token != null", result.body()?.accessToken)
         Assert.assertTrue(result.isSuccessful)
     }
 
     @Test
-    fun testFindChatMessages() {
-        val messages = service.findChatMessages(getAuthHeader(), SENDER_ID, RECIPIENT_ID)
-        val result = messages.execute()
-        Assert.assertTrue("messages not empty", result.body()?.isNotEmpty() ?: false)
+    fun testSignup() {
+        val signup = mServiceApi.signup(SIGNUP_REQUEST2)
+        val result = signup.execute()
+        Assert.assertTrue(result.isSuccessful)
     }
 
     @Test
-    fun testFindChatMessage() {
-        val messages = service.findChatMessage(getAuthHeader(), MESSAGE_ID)
-        val result = messages.execute()
-        Assert.assertTrue("message content != null", result.body()?.content != null)
+    fun testGetCurrentUser() {
+        val currentUser = mServiceApi.getCurrentUser(getAuthHeader())
+        val result = currentUser.execute()
+        Assert.assertNotNull("user id != null", result.body()?.id)
+        Assert.assertNotNull("user name != null", result.body()?.name)
+    }
+
+    @Test
+    fun testGetUsers() {
+        val users = mServiceApi.getContacts(getAuthHeader())
+        val result = users.execute()
+        Assert.assertTrue("users not empty", result.body()?.isNotEmpty() ?: false)
     }
 
     private fun getAuthHeader(): String {
-        val login = authService.login(LOGIN_REQUEST)
+        val login = mServiceApi.login(LOGIN_REQUEST)
         val result = login.execute()
         return result.body()?.tokenType + " " + result.body()?.accessToken
     }

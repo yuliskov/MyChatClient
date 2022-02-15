@@ -22,7 +22,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Path
 
-interface MyChatService {
+interface MyChatServiceApi {
     @GET("/messages/{senderId}/{recipientId}/count")
     fun countNewMessages(@Header("Authorization") auth: String,
                          @Path("senderId") senderId: String,

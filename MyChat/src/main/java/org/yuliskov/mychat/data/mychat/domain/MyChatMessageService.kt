@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package org.yuliskov.mychat.data.mychat.api
+package org.yuliskov.mychat.data.mychat.domain
 
-import com.tinder.scarlet.WebSocket
-import com.tinder.scarlet.ws.Receive
-import com.tinder.scarlet.ws.Send
-import io.reactivex.Flowable
-import org.yuliskov.mychat.data.gdax.api.model.Subscribe
-import org.yuliskov.mychat.data.gdax.api.model.Ticker
-
-interface MyChatStompService {
-    @Receive
-    fun observeWebSocketEvent(): Flowable<WebSocket.Event>
-    @Send
-    fun sendSubscribe(subscribe: Subscribe)
-    @Receive
-    fun observeTicker(): Flowable<Ticker>
+class MyChatMessageService {
 }
