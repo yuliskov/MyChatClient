@@ -154,8 +154,10 @@ object Libs {
     }
 
     object JavaX {
+        const val websockets = "org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
         const val websocketApi = "javax.websocket:javax.websocket-api:1.1"
-        const val websocketApiImplementation = "org.glassfish.tyrus.bundles:tyrus-standalone-client:1.9"
+        const val xmlParserBackport = "javax.xml.parsers:jaxp-api:1.4.5" // Java 8 backport: xml parser
+        const val timeBackport = "com.github.seratch:java-time-backport:1.0.0" // Java 8 backport: time
     }
 
     object Jackson {

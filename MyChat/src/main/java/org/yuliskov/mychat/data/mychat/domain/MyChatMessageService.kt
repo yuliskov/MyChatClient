@@ -69,7 +69,7 @@ class MyChatMessageService private constructor() {
         }
     }
 
-    private suspend fun subscribe(senderId: String): Flow<ChatMessage> {
+    private suspend fun subscribeInt(senderId: String): Flow<ChatMessage> {
         return getSession().subscribe(MESSAGE_RECEIVE_URL.format(senderId), ChatMessage.serializer())
     }
 
@@ -77,7 +77,7 @@ class MyChatMessageService private constructor() {
         sendMessage(ChatMessage(null, from.userId, to.userId, from.name, to.name, message.content, message.timestamp))
     }
 
-    suspend fun subscribe(sender: ProfileScreenState): Flow<Message> {
-        return subscribe(sender.userId).map { Message(it.senderName ?: "", it.content ?: "", it.timestamp ?: "") }
+    suspend fun subscribe(userId: String): Flow<Message> {
+        return subscribeInt(userId).map { Message(it.senderName ?: "", it.content ?: "", it.timestamp ?: "") }
     }
 }

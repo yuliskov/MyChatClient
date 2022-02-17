@@ -22,9 +22,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.yuliskov.mychat.data.meProfile
 import org.yuliskov.mychat.data.mychat.domain.MyChatMessageService
-import org.yuliskov.mychat.profile.ProfileScreenState
+import timber.log.Timber
 
 class ConversationViewModel: ViewModel() {
     private var userId: String = ""
@@ -33,10 +34,20 @@ class ConversationViewModel: ViewModel() {
         if (newUserId != userId) {
             userId = newUserId ?: meProfile.userId
         }
+
+        _uiState.value = ConversationUiState()
+
         // Create a new coroutine on the UI thread
-        //viewModelScope.launch(Dispatchers.IO) {
-        //    MyChatMessageService.instance.subscribe(ProfileScreenState(userId = userId, ))
-        //}
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val subscription = MyChatMessageService.instance.subscribe(userId)
+                subscription.collect {
+                     _uiState.value?.addMessage(it)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
     }
 
     private val _uiState = MutableLiveData<ConversationUiState>()

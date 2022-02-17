@@ -16,6 +16,7 @@
 
 package org.yuliskov.mychat.conversation
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,24 +24,34 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
-import org.yuliskov.mychat.MainViewModel
 import com.example.compose.jetchat.R
-import org.yuliskov.mychat.data.exampleUiState
-import org.yuliskov.mychat.theme.MyChatTheme
 import com.google.accompanist.insets.ExperimentalAnimatedInsets
 import com.google.accompanist.insets.LocalWindowInsets
 import com.google.accompanist.insets.ViewWindowInsetObserver
 import com.google.accompanist.insets.navigationBarsPadding
+import org.yuliskov.mychat.MainViewModel
+import org.yuliskov.mychat.conversation.data.ConversationViewModel
+import org.yuliskov.mychat.data.exampleUiState
+import org.yuliskov.mychat.theme.MyChatTheme
 
 class ConversationFragment : Fragment() {
-
+    private val conversationViewModel: ConversationViewModel by viewModels()
     private val activityViewModel: MainViewModel by activityViewModels()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        conversationViewModel.setUserId("1234546")
+    }
 
     @OptIn(ExperimentalAnimatedInsets::class) // Opt-in to experiment animated insets support
     override fun onCreateView(
@@ -60,13 +71,17 @@ class ConversationFragment : Fragment() {
             .start(windowInsetsAnimationsEnabled = true)
 
         setContent {
+            val uiState by conversationViewModel.uiState.observeAsState()
+
             CompositionLocalProvider(
                 LocalBackPressedDispatcher provides requireActivity().onBackPressedDispatcher,
                 LocalWindowInsets provides windowInsets,
             ) {
                 MyChatTheme {
                     ConversationContent(
-                        uiState = exampleUiState,
+                        // TODO: modified
+                        //uiState = exampleUiState,
+                        uiState = uiState!!,
                         navigateToProfile = { user ->
                             // Click callback
                             val bundle = bundleOf("userId" to user)

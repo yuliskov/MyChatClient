@@ -92,6 +92,7 @@ android {
         exclude "META-INF/spring.schemas"
         exclude "META-INF/spring.tooling"
         exclude "META-INF/spring.handlers"
+        exclude "**org/springframework/util/ClassUtils.class" // spring-core Android 7 fix
     }
 }
 
@@ -147,10 +148,10 @@ dependencies {
 
     implementation Libs.Krossbow.stomp
     implementation Libs.Krossbow.sockjs
+    implementation Libs.JavaX.xmlParserBackport
+    implementation Libs.JavaX.timeBackport
     implementation Libs.Krossbow.kxserialization
-
-    //implementation Libs.JavaX.websocketApi
-    implementation Libs.JavaX.websocketApiImplementation
+    implementation Libs.JavaX.websockets
 
     implementation Libs.Jackson.core
     implementation Libs.Jackson.databind

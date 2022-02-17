@@ -10,3 +10,4 @@ build
 .externalNativeBuild
 .cxx
 local.properties
+out.txt
