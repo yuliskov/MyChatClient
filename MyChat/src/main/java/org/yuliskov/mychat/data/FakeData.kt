@@ -17,8 +17,8 @@
 package org.yuliskov.mychat.data
 
 import com.example.compose.jetchat.R
-import org.yuliskov.mychat.conversation.ConversationUiState
-import org.yuliskov.mychat.conversation.Message
+import org.yuliskov.mychat.conversation.data.Message
+import org.yuliskov.mychat.conversation.data.ConversationUiState
 import org.yuliskov.mychat.profile.ProfileScreenState
 
 private val initialMessages = listOf(

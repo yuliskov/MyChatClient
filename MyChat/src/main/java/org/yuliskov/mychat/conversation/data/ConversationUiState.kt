@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.yuliskov.mychat.conversation
+package org.yuliskov.mychat.conversation.data
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.mutableStateListOf
