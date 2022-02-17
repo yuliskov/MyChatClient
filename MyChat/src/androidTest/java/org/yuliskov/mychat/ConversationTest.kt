@@ -20,25 +20,19 @@ import androidx.activity.ComponentActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.compose.ui.test.onNodeWithContentDescription
-import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTouchInput
-import androidx.compose.ui.test.swipe
 import com.example.compose.jetchat.R
-import org.yuliskov.mychat.conversation.ConversationContent
-import org.yuliskov.mychat.conversation.ConversationTestTag
-import org.yuliskov.mychat.conversation.ConversationUiState
-import org.yuliskov.mychat.conversation.LocalBackPressedDispatcher
-import org.yuliskov.mychat.data.exampleUiState
-import org.yuliskov.mychat.theme.MyChatTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.yuliskov.mychat.conversation.ConversationContent
+import org.yuliskov.mychat.conversation.ConversationTestTag
+import org.yuliskov.mychat.conversation.LocalBackPressedDispatcher
+import org.yuliskov.mychat.conversation.data.ConversationUiState
+import org.yuliskov.mychat.data.exampleUiState
+import org.yuliskov.mychat.theme.MyChatTheme
 
 /**
  * Checks that the features in the Conversation screen work as expected.
