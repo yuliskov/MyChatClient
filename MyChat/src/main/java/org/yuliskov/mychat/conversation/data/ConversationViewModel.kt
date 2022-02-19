@@ -47,7 +47,11 @@ class ConversationViewModel: ViewModel() {
 
         _uiState.value = ConversationUiState(onAdd = {
             viewModelScope.launch(Dispatchers.IO) {
-                chatMessageService.sendMessage(it, testUser, testGroup)
+                try {
+                    chatMessageService.sendMessage(it, testUser, testGroup)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         })
 
@@ -62,7 +66,7 @@ class ConversationViewModel: ViewModel() {
                      _uiState.value?.addMessage(it)
                 }
             } catch (e: Exception) {
-                Timber.e(e)
+                e.printStackTrace()
             }
         }
     }
