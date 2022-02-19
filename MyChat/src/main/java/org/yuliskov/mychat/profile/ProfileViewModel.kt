@@ -53,8 +53,8 @@ data class ProfileScreenState(
     val displayName: String,
     val position: String,
     val twitter: String = "",
-    val timeZone: String?, // Null if me
-    val commonChannels: String? // Null if me
+    val timeZone: String? = null, // Null if me
+    val commonChannels: String? = null // Null if me
 ) {
     fun isMe() = userId == meProfile.userId
 }

@@ -20,27 +20,44 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.compose.jetchat.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.ExperimentalSerializationApi
 import org.yuliskov.mychat.data.meProfile
 import org.yuliskov.mychat.data.mychat.domain.MyChatMessageService
+import org.yuliskov.mychat.data.mychat.domain.MyChatService
+import org.yuliskov.mychat.profile.ProfileScreenState
 import timber.log.Timber
 
+@ExperimentalSerializationApi
 class ConversationViewModel: ViewModel() {
+    private val chatService: MyChatService = MyChatService.instance
+    private val chatMessageService: MyChatMessageService = MyChatMessageService.instance
     private var userId: String = ""
+    private val testUser: ProfileScreenState =
+        ProfileScreenState("testUserId", R.drawable.ali, "Test User", "Online", "Test User", "Test user position")
+    private val testGroup: ProfileScreenState =
+        ProfileScreenState("testGroupId", R.drawable.someone_else, "Test Group", "Online", "Test Group", "Test group position")
 
     fun setUserId(newUserId: String?) {
         if (newUserId != userId) {
             userId = newUserId ?: meProfile.userId
         }
 
-        _uiState.value = ConversationUiState()
+        _uiState.value = ConversationUiState(onAdd = {
+            viewModelScope.launch(Dispatchers.IO) {
+                chatMessageService.sendMessage(it, testUser, testGroup)
+            }
+        })
 
         // Create a new coroutine on the UI thread
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val subscription = MyChatMessageService.instance.subscribe(userId)
+                val initialMessages = chatService.findChatMessages(testUser.userId, testGroup.userId)
+                initialMessages?.forEach { _uiState.value?.addMessage(it) }
+
+                val subscription = chatMessageService.subscribe(userId)
                 subscription.collect {
                      _uiState.value?.addMessage(it)
                 }

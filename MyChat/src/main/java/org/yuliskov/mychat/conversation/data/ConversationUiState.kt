@@ -23,7 +23,8 @@ import com.example.compose.jetchat.R
 class ConversationUiState(
     val channelName: String = "#default",
     val channelMembers: Int = 42,
-    initialMessages: List<Message> = listOf()
+    initialMessages: List<Message> = listOf(),
+    val onAdd: (msg: Message) -> Unit = {}
 ) {
     private val _messages: MutableList<Message> =
         mutableStateListOf(*initialMessages.toTypedArray())
@@ -31,6 +32,7 @@ class ConversationUiState(
 
     fun addMessage(msg: Message) {
         _messages.add(0, msg) // Add to the beginning of the list
+        onAdd(msg)
     }
 }
 

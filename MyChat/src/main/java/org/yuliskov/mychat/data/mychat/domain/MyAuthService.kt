@@ -16,5 +16,52 @@
 
 package org.yuliskov.mychat.data.mychat.domain
 
-class MyAuthService {
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import org.yuliskov.mychat.data.mychat.api.MyAuthServiceApi
+import org.yuliskov.mychat.data.mychat.api.model.LoginRequest
+import retrofit2.Retrofit
+
+@ExperimentalSerializationApi
+class MyAuthService private constructor() {
+    private val serviceApi: MyAuthServiceApi
+    private var authHeader: String? = null
+
+    companion object {
+        private const val AUTH_SERVICE = "http://localhost:8081"
+        val instance: MyAuthService by lazy {
+            MyAuthService()
+        }
+    }
+
+    init {
+        val contentType = "application/json".toMediaType()
+
+        val retrofit2 = Retrofit.Builder()
+            .baseUrl(AUTH_SERVICE)
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .build()
+
+        serviceApi = retrofit2.create(MyAuthServiceApi::class.java)
+    }
+
+    /**
+     * Enter to existing account
+     */
+    suspend fun login(senderName: String, senderPassword: String): String? {
+        authHeader = loginInt(senderName, senderPassword)
+        return authHeader
+    }
+
+    fun getAuthHeader(): String? {
+        return authHeader
+    }
+
+    private fun loginInt(senderName: String, senderPassword: String): String {
+        val login = serviceApi.login(LoginRequest(senderName, senderPassword))
+        val result = login.execute()
+        return result.body()?.tokenType + " " + result.body()?.accessToken
+    }
 }

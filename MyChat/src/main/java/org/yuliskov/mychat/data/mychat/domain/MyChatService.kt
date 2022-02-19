@@ -16,5 +16,42 @@
 
 package org.yuliskov.mychat.data.mychat.domain
 
-class MyChatService {
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import org.yuliskov.mychat.conversation.data.Message
+import org.yuliskov.mychat.data.mychat.api.MyChatServiceApi
+import retrofit2.Retrofit
+
+@ExperimentalSerializationApi
+class MyChatService private constructor() {
+    private val authService: MyAuthService
+    private val serviceApi: MyChatServiceApi
+
+    companion object {
+        private const val CHAT_SERVICE = "http://localhost:8080"
+        val instance: MyChatService by lazy {
+            MyChatService()
+        }
+    }
+
+    init {
+        val contentType = "application/json".toMediaType()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(CHAT_SERVICE)
+            .addConverterFactory(Json.asConverterFactory(contentType))
+            .build()
+
+        serviceApi = retrofit.create(MyChatServiceApi::class.java)
+        authService = MyAuthService.instance
+    }
+
+    suspend fun findChatMessages(senderId: String, recipientId: String): List<Message>? {
+        val messages = serviceApi.findChatMessages(authService.getAuthHeader() ?: "", senderId, recipientId)
+        val result = messages.execute()
+
+        return result.body()?.map { Message(it.senderName ?: "none", it.content ?: "none", it.timestamp ?: "none") }
+    }
 }

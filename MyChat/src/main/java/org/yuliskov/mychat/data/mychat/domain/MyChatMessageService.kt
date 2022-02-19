@@ -41,9 +41,9 @@ class MyChatMessageService private constructor() {
     private var jsonStompSession: StompSessionWithKxSerialization? = null
 
     companion object {
+        private const val CHAT_SERVICE_URL = "http://localhost:8080/ws"
         private const val MESSAGE_SEND_URL = "/app/chat"
         private const val MESSAGE_RECEIVE_URL = "/user/%s/queue/messages"
-        private const val CHAT_SERVICE_URL = "http://localhost:8080/ws"
         val instance: MyChatMessageService by lazy {
             MyChatMessageService()
         }
@@ -73,8 +73,8 @@ class MyChatMessageService private constructor() {
         return getSession().subscribe(MESSAGE_RECEIVE_URL.format(senderId), ChatMessage.serializer())
     }
 
-    suspend fun sendMessage(message: Message, from: ProfileScreenState, to: ProfileScreenState) {
-        sendMessage(ChatMessage(null, from.userId, to.userId, from.name, to.name, message.content, message.timestamp))
+    suspend fun sendMessage(message: Message, sender: ProfileScreenState, recipient: ProfileScreenState) {
+        sendMessage(ChatMessage(null, sender.userId, recipient.userId, sender.name, recipient.name, message.content, message.timestamp))
     }
 
     suspend fun subscribe(userId: String): Flow<Message> {
