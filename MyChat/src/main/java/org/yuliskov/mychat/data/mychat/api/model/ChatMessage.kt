@@ -26,5 +26,7 @@ data class ChatMessage(
     val senderName: String? = null,
     val recipientName: String? = null,
     val content: String? = null,
-    val timestamp: String? = null
+    val timestamp: String? = null,
+    val chatId: String? = null,
+    val status: String? = null,
 )

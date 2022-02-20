@@ -67,7 +67,9 @@ class ConversationViewModel: ViewModel() {
 
                 val subscription = chatMessageService.subscribe(testGroup.userId)
                 subscription.collect {
-                     _uiState.value?.addMessage(it)
+                    // My messages already added. Ignore them.
+                    if (it.authorId != testUser.userId)
+                        it.id?.let { id -> chatService.findChatMessage(id)?.let { msg -> _uiState.value?.addMessage(msg) } }
                 }
             } catch (e: Exception) {
                 _uiState.value?.addMessage(Utils.createErrorMessage(e))

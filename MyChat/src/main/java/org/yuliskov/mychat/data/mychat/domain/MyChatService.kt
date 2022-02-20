@@ -30,7 +30,7 @@ class MyChatService private constructor() {
     private val serviceApi: MyChatServiceApi
 
     companion object {
-        private const val CHAT_SERVICE = "http://localhost:8080"
+        private const val CHAT_SERVICE = "http://192.168.31.78:8080"
         val instance: MyChatService by lazy {
             MyChatService()
         }
@@ -49,7 +49,7 @@ class MyChatService private constructor() {
     }
 
     suspend fun findGroupMessages(groupId: String): List<Message>? {
-        return findChatMessages("", groupId)
+        return findChatMessages("no_id", groupId)
     }
 
     suspend fun findChatMessages(senderId: String, recipientId: String): List<Message>? {
@@ -57,5 +57,12 @@ class MyChatService private constructor() {
         val result = messages.execute()
 
         return result.body()?.map { Message(it.senderName ?: "none", it.content ?: "none", it.timestamp ?: "none") }
+    }
+
+    suspend fun findChatMessage(messageId: String): Message? {
+        val messages = serviceApi.findChatMessage(authService.getAuthHeader() ?: "", messageId)
+        val result = messages.execute()
+
+        return result.body()?.let { Message(it.senderName ?: "none", it.content ?: "none", it.timestamp ?: "none") }
     }
 }

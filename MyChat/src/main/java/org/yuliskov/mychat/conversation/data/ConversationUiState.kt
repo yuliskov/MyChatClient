@@ -42,5 +42,7 @@ data class Message(
     val content: String,
     val timestamp: String,
     val image: Int? = null,
-    val authorImage: Int = if (author == "me") R.drawable.ali else R.drawable.someone_else
+    val authorImage: Int = if (author == "me") R.drawable.ali else R.drawable.someone_else,
+    val authorId: String? = null,
+    val id: String? = null
 )
