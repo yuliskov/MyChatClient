@@ -48,6 +48,10 @@ class MyChatService private constructor() {
         authService = MyAuthService.instance
     }
 
+    suspend fun findGroupMessages(groupId: String): List<Message>? {
+        return findChatMessages("", groupId)
+    }
+
     suspend fun findChatMessages(senderId: String, recipientId: String): List<Message>? {
         val messages = serviceApi.findChatMessages(authService.getAuthHeader() ?: "", senderId, recipientId)
         val result = messages.execute()

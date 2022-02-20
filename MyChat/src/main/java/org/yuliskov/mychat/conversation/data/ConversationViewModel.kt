@@ -24,11 +24,12 @@ import com.example.compose.jetchat.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.ExperimentalSerializationApi
+import org.yuliskov.mychat.Utils
 import org.yuliskov.mychat.data.meProfile
 import org.yuliskov.mychat.data.mychat.domain.MyChatMessageService
 import org.yuliskov.mychat.data.mychat.domain.MyChatService
+import org.yuliskov.mychat.isError
 import org.yuliskov.mychat.profile.ProfileScreenState
-import timber.log.Timber
 
 @ExperimentalSerializationApi
 class ConversationViewModel: ViewModel() {
@@ -46,10 +47,13 @@ class ConversationViewModel: ViewModel() {
         }
 
         _uiState.value = ConversationUiState(onAdd = {
+            if (it.isError) return@ConversationUiState
+
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     chatMessageService.sendMessage(it, testUser, testGroup)
                 } catch (e: Exception) {
+                    _uiState.value?.addMessage(Utils.createErrorMessage(e))
                     e.printStackTrace()
                 }
             }
@@ -58,14 +62,15 @@ class ConversationViewModel: ViewModel() {
         // Create a new coroutine on the UI thread
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val initialMessages = chatService.findChatMessages(testUser.userId, testGroup.userId)
+                val initialMessages = chatService.findGroupMessages(testGroup.userId)
                 initialMessages?.forEach { _uiState.value?.addMessage(it) }
 
-                val subscription = chatMessageService.subscribe(userId)
+                val subscription = chatMessageService.subscribe(testGroup.userId)
                 subscription.collect {
                      _uiState.value?.addMessage(it)
                 }
             } catch (e: Exception) {
+                _uiState.value?.addMessage(Utils.createErrorMessage(e))
                 e.printStackTrace()
             }
         }
